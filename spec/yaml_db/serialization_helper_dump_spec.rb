@@ -87,7 +87,7 @@ module YamlDb
             double('b_id', :name => 'b_id', :type => :string)
           ])
 
-          expect(Dump.sort_key('mytable')).to eq(['a_id', 'b_id'])
+          expect(Dump.sort_key('mytable')).to eq('a_id,b_id')
         end
 
         it "quotes the column name" do

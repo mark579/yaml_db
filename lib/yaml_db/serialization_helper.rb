@@ -189,6 +189,7 @@ module YamlDb
 
         (0..pages).to_a.each do |page|
           query = Arel::Table.new(table).order(key).skip(records_per_page*page).take(records_per_page).project(Arel.sql('*'))
+
           records = ActiveRecord::Base.connection.select_all(query.to_sql)
           records = Utils.convert_booleans(records, boolean_columns)
           yield records
@@ -205,7 +206,7 @@ module YamlDb
         first_column, second_column = table_column_names(table)
 
         if [first_column, second_column].all? { |name| name =~ /_id$/ }
-          [Utils.quote_column(first_column), Utils.quote_column(second_column)]
+          [Utils.quote_column(first_column), Utils.quote_column(second_column)].join(',')
         else
           Utils.quote_column(first_column)
         end
